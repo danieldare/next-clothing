@@ -1,7 +1,7 @@
 import React , { useEffect } from 'react';
 import './App.css';
 import Homepage from './Homepage';
-import { BrowserRouter , Route, Switch } from "react-router-dom";
+import { BrowserRouter , Route, Switch , Redirect } from "react-router-dom";
 import ShopPage from './pages/Shop/Shop';
 import Header from './components/Header/Header';
 import Auth from './pages/Auth/Auth';
@@ -24,8 +24,6 @@ function App(props) {
           ...snapShot.data()
         });
       });
-
-      
      }else{
        setCurrentUser(userAuth)
      }
@@ -37,21 +35,24 @@ function App(props) {
   }, [setCurrentUser]);
 
 
-  
   return (
     <BrowserRouter>
     <Header/>
       <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/auth" component={Auth} />
+          <Route path="/auth"  render={() => props.currentUser ? <Redirect to="/" /> : <Auth />} />
       </Switch>
     </BrowserRouter>
   );
 }
 
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
+
 const mapDispatchToProps = dispatch => ({
     setCurrentUser: user => dispatch(setCurrentUser(user))
-})
+});
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
