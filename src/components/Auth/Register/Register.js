@@ -44,7 +44,6 @@ class Register extends Component {
 
 
     render(){
-        console.log(this.state)
         const { displayName, email , password , confirmPassword } = this.state;
         return (
             <div className="Register">

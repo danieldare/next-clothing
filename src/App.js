@@ -32,8 +32,6 @@ function App() {
          currentUser: userAuth
        })
      }
-     
-     console.log(state)
     });
     //UnMounting 
     return () => {
@@ -45,7 +43,6 @@ function App() {
   
   return (
     <BrowserRouter>
-    {console.log(state.currentUser)}
     <Header currentUser={state.currentUser} />
       <Switch>
           <Route exact path="/" component={Homepage} />
