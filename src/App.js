@@ -5,40 +5,47 @@ import { BrowserRouter , Route, Switch } from "react-router-dom";
 import ShopPage from './pages/Shop/Shop';
 import Header from './components/Header/Header';
 import Auth from './pages/Auth/Auth';
-import { auth } from "./firebase/firebase.utils"
-
-
-const Test = () => (
-  <div>Hello from Hat Page</div>
-)
-
-
-
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils"
 
 function App() {
-  const [state, setState ] = useState({
+  const [ state, setState ] = useState({
     currentUser: null
-  })
-
-  
+  });
 
   useEffect(() => {
     let unsubscribeFromAuth = null;
 
-   unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      console.log(user)
-      setState({
-        currentUser: user
+    //checking for the user auth state then store in firestore and in the application state
+   unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
+     if(userAuth){
+      const userRef = await createUserProfileDocument(userAuth);
+      userRef.onSnapshot(snapShot => {
+        setState({
+          id: snapShot.id,
+          ...snapShot.data()
+        })
       })
-    })
 
+      
+     }else{
+       setState({
+         currentUser: userAuth
+       })
+     }
+     
+     console.log(state)
+    });
+    //UnMounting 
     return () => {
       unsubscribeFromAuth();
     }
-  }, [])
+  }, [state.currentUser]);
 
+
+  
   return (
     <BrowserRouter>
+    {console.log(state.currentUser)}
     <Header currentUser={state.currentUser} />
       <Switch>
           <Route exact path="/" component={Homepage} />
