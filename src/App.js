@@ -8,6 +8,8 @@ import Auth from './pages/Auth/Auth';
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils"
 import { setCurrentUser } from "./redux/User/UserActions";
 import { connect } from "react-redux";
+import { selectCurrentUser } from './redux/User/UserSelector';
+import Checkout from './pages/Checkout/Checkout';
 
 function App(props) {
   const { setCurrentUser } = props;
@@ -42,13 +44,14 @@ function App(props) {
           <Route exact path="/" component={Homepage} />
           <Route path="/shop" component={ShopPage} />
           <Route path="/auth"  render={() => props.currentUser ? <Redirect to="/" /> : <Auth />} />
+          <Route exact path="/checkout" component={Checkout}  />
       </Switch>
     </BrowserRouter>
   );
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+  currentUser: selectCurrentUser(state)
 });
 
 const mapDispatchToProps = dispatch => ({
