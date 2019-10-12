@@ -1,5 +1,5 @@
-const sections = [
-  {
+const ShopData = {
+  hats:   {
     id: 1,
     title: 'Hats',
     routeName: 'hats',
@@ -60,7 +60,7 @@ const sections = [
       }
     ]
   },
-  {
+  sneakers: {
     id: 2,
     title: 'Sneakers',
     routeName: 'sneakers',
@@ -115,7 +115,7 @@ const sections = [
       }
     ]
   },
-  {
+  jackets: {
     id: 3,
     title: 'Jackets',
     routeName: 'jackets',
@@ -152,7 +152,7 @@ const sections = [
       }
     ]
   },
-  {
+  womens: {
     id: 4,
     title: 'Womens',
     routeName: 'womens',
@@ -201,7 +201,7 @@ const sections = [
       }
     ]
   },
-  {
+  mens: {
     id: 5,
     title: 'Mens',
     routeName: 'mens',
@@ -244,8 +244,6 @@ const sections = [
       }
     ]
   }
-];
+};
 
-  
-
-  export default sections;
+export default ShopData;
