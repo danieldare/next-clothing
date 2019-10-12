@@ -9,9 +9,6 @@ import exportedObj from './redux/store';
 
 const { store, persistor } = exportedObj;
 
-
-
-
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate persistor={persistor}>
