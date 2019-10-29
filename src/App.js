@@ -10,9 +10,12 @@ import { setCurrentUser } from "./redux/User/UserActions";
 import { connect } from "react-redux";
 import { selectCurrentUser } from './redux/User/UserSelector';
 import Checkout from './pages/Checkout/Checkout';
+import { createStructuredSelector } from 'reselect';
+// import { selectCollectionsForPreview } from './redux/Shop/ShopSelector';
+
 
 function App(props) {
-  const { setCurrentUser } = props;
+  const { setCurrentUser , collectionsArray} = props;
   useEffect(() => {
     let unsubscribeFromAuth = null;
 
@@ -27,15 +30,16 @@ function App(props) {
         });
       });
      }else{
-       setCurrentUser(userAuth)
+       setCurrentUser(userAuth);
+       //The collectionArray is mapped over to return just the need details from the collections which is the { title , items}
+      //  addCollectionAndDocument("collections", collectionsArray.map(({ title, items }) => ({title, items})));
      }
     });
     //UnMounting 
     return () => {
       unsubscribeFromAuth();
     }
-  }, [setCurrentUser]);
-
+  }, [setCurrentUser, collectionsArray]);
 
   return (
     <BrowserRouter>
@@ -48,10 +52,11 @@ function App(props) {
       </Switch>
     </BrowserRouter>
   );
-}
+};
 
-const mapStateToProps = state => ({
-  currentUser: selectCurrentUser(state)
+const mapStateToProps = createStructuredSelector ({
+  currentUser: selectCurrentUser,
+  // collectionsArray: selectCollectionsForPreview
 });
 
 const mapDispatchToProps = dispatch => ({
